@@ -1,3 +1,6 @@
 ﻿
-Console.WriteLine("Test");
-Console.ReadKey();
+using MainApp.Dialogs;
+
+MenuDialogs menu = new MenuDialogs();
+
+menu.ShowMenu();
