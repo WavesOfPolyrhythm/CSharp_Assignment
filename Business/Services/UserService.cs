@@ -1,11 +1,11 @@
 ﻿using Business.Models;
 namespace Business.Services;
 
-public class ContactService
+public class UserService
 {
     private readonly List<UserRegistrationForm> _user = [];
 
-    public void AddContact(UserRegistrationForm user)
+    public void CreateContact(UserRegistrationForm user)
     {
         _user.Add(user);
     }
