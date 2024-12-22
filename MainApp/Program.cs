@@ -1,3 +1,3 @@
 ﻿
-Console.WriteLine("Clean start");
+Console.WriteLine("Test");
 Console.ReadKey();
