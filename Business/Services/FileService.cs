@@ -44,11 +44,21 @@ public class FileService
     {
         try
         {
+            //Returns a empty list if FilePath do not exist.
+            if (!File.Exists(_filePath))
+            {
+                return [];
+            }
 
+            //Reads the file at the specified path and deserializes content into a list of UserEntity objects
+            var json = File.ReadAllText(_filePath);
+            var list = JsonSerializer.Deserialize<List<UserEntity>>(json, _jsonSerializerOptions);
+            return list ?? [];
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
+            return [];
         }
     }
 }
