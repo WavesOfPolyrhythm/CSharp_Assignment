@@ -4,15 +4,18 @@ namespace Business.Services;
 
 public class UserService
 {
-    private readonly List<UserEntity> _users = new List<UserEntity>();
+    private List<UserEntity> _users = new();
+    private readonly FileService _fileService = new FileService();
 
     public void CreateContact(UserEntity user)
     {
         _users.Add(user);
+        _fileService.SaveListToFile(_users);
     }
 
     public IEnumerable<UserEntity> ViewContacts()
     {
+        _users = _fileService.LoadListFromFile();
         return _users;
     }
 }
