@@ -1,4 +1,5 @@
-﻿using Business.Models;
+﻿using Business.Factories;
+using Business.Models;
 using Business.Services;
 using System;
 using System.Security.Cryptography.X509Certificates;
@@ -61,7 +62,11 @@ public class MenuDialogs
         Console.Write("Enter your last name: ");
         user.LastName = Console.ReadLine()!;
 
-        _userService.CreateContact(user);
+        //Creating a UserEntity with UserFactory
+        var userEntity = UserFactory.Create(user);
+
+        // Sends the created UserEntity to the UserService for further processing
+        _userService.CreateContact(userEntity);
 
         Console.WriteLine("Contact was added!");
         Console.ReadKey();
@@ -70,14 +75,24 @@ public class MenuDialogs
     public void ViewContacts()
     {
         Console.Clear();
+
+        // Retrieves a list of all stored user contacts from the UserService
         var users = _userService.ViewContacts();
 
-        foreach (var user in users)
+        if (!users.Any())
         {
-            Console.WriteLine($"Id: {user.Id}");
-            Console.WriteLine($"First name: {user.FirstName}");
-            Console.WriteLine($"Last name: {user.LastName}");
-            Console.WriteLine("-------------");
+            Console.WriteLine("No users found!");
+        }
+        else
+        {
+            //Looping through each user object
+            foreach (var user in users)
+            {
+                Console.WriteLine($"Id: {user.Id}");
+                Console.WriteLine($"First name: {user.FirstName}");
+                Console.WriteLine($"Last name: {user.LastName}");
+                Console.WriteLine("-----------------");
+            }
         }
 
         Console.ReadKey();

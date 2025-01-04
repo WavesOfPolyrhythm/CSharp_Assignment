@@ -1,17 +1,18 @@
-﻿using Business.Models;
+﻿using Business.Entities;
+using Business.Models;
 namespace Business.Services;
 
 public class UserService
 {
-    private readonly List<UserRegistrationForm> _user = [];
+    private readonly List<UserEntity> _users = new List<UserEntity>();
 
-    public void CreateContact(UserRegistrationForm user)
+    public void CreateContact(UserEntity user)
     {
-        _user.Add(user);
+        _users.Add(user);
     }
 
-    public IEnumerable<UserRegistrationForm> ViewContacts()
+    public IEnumerable<UserEntity> ViewContacts()
     {
-        return _user;
+        return _users;
     }
 }
