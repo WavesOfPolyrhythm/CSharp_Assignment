@@ -78,7 +78,8 @@ public class MenuDialogs
             Console.WriteLine($"First name: {user.FirstName}");
             Console.WriteLine($"Last name: {user.LastName}");
             Console.WriteLine("-------------");
-            Console.ReadKey();
         }
+
+        Console.ReadKey();
     }
 }
