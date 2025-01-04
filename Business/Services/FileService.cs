@@ -15,6 +15,7 @@ public class FileService
 
 
     // Initializes the FileService with a directory path, file name, and JSON serialization options
+    // Combines the directory path and file name into a full file path.
     public FileService(string directoryPath ="Data", string fileName = "list.json")
     {
         _directoryPath = directoryPath;
@@ -55,10 +56,13 @@ public class FileService
             var list = JsonSerializer.Deserialize<List<UserEntity>>(json, _jsonSerializerOptions);
             return list ?? [];
         }
+
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
             return [];
         }
     }
+
+    // Catches any exception that occurs during file operations and logs the error message.
 }

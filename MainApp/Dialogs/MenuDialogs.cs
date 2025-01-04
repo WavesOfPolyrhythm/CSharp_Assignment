@@ -10,10 +10,13 @@ public class MenuDialogs
 {
 
     private readonly UserService _userService = new();
+
+    //ShowMenu Handles the user's menu selection
     public void ShowMenu()
     {
        bool isRunning = true;
 
+        // Loops until the user chooses to quit the program.
         while (isRunning)
         {
             Console.Clear();
@@ -85,7 +88,7 @@ public class MenuDialogs
         }
         else
         {
-            //Looping through each user object
+            //Iterates through each UserEntity and writes it out to the user
             foreach (var user in users)
             {
                 Console.WriteLine($"Id: {user.Id}");

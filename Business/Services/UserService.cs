@@ -7,6 +7,8 @@ public class UserService
     private List<UserEntity> _users = new();
     private readonly FileService _fileService = new FileService();
 
+
+    // Adds the new UserEntity to the in-memory list and saves the updated list to the file.
     public void CreateContact(UserEntity user)
     {
         _users.Add(user);
