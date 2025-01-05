@@ -56,23 +56,45 @@ public class MenuDialogs
 
     public void CreateContact()
     {
-        Console.Clear();
         var user = new UserRegistrationForm();
+        bool validInput = false;
 
-        Console.Write("Enter your first name: ");
-        user.FirstName = Console.ReadLine()!;
+        while (!validInput)
+        {
+            Console.Clear();
+            Console.Write("Enter your first name: ");
+            user.FirstName = Console.ReadLine()!;
 
-        Console.Write("Enter your last name: ");
-        user.LastName = Console.ReadLine()!;
+            //Validates user input and check if it is not empty or whitespace
+            if (string.IsNullOrWhiteSpace(user.FirstName))
+            {
+                Console.Write("\nFirst name cannot be empty. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
 
-        //Creating a UserEntity with UserFactory
-        var userEntity = UserFactory.Create(user);
+            Console.Write("Enter your last name: ");
+            user.LastName = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(user.LastName))
+            {
+                Console.Write("\nLast name cannot be empty. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
 
-        // Sends the created UserEntity to the UserService for further processing
-        _userService.CreateContact(userEntity);
+            //If both inputs passes the loop ends
+            validInput = true;
 
-        Console.WriteLine("Contact was added!");
-        Console.ReadKey();
+            //Creating a UserEntity with UserFactory
+            var userEntity = UserFactory.Create(user);
+
+            // Sends the created UserEntity to the UserService for further processing
+            _userService.CreateContact(userEntity);
+
+            Console.WriteLine("Contact was added!");
+            Console.ReadKey();
+        }
+    
     }
 
     public void ViewContacts()
