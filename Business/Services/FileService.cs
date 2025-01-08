@@ -1,11 +1,12 @@
 ﻿
 using Business.Entities;
+using Business.Interfaces;
 using System.Diagnostics;
 using System.Text.Json;
 
 namespace Business.Services;
 
-public class FileService
+public class FileService : IFileService
 {
     private readonly string _directoryPath;
     private readonly string _filePath;
@@ -16,7 +17,7 @@ public class FileService
 
     // Initializes the FileService with a directory path, file name, and JSON serialization options
     // Combines the directory path and file name into a full file path.
-    public FileService(string directoryPath ="Data", string fileName = "list.json")
+    public FileService(string directoryPath = "Data", string fileName = "list.json")
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);

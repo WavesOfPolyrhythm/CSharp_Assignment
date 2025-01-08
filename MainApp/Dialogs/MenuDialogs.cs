@@ -1,4 +1,5 @@
 ﻿using Business.Factories;
+using Business.Interfaces;
 using Business.Models;
 using Business.Services;
 using System;
@@ -6,10 +7,10 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace MainApp.Dialogs;
 
-public class MenuDialogs
+public class MenuDialogs(IUserService userService)
 {
 
-    private readonly UserService _userService = new();
+    private readonly IUserService _userService = userService;
 
     //ShowMenu Handles the user's menu selection
     public void ShowMenu()
