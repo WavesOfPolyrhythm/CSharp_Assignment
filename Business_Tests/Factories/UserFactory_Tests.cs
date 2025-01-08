@@ -16,6 +16,10 @@ public class UserFactory_Tests
         {
             FirstName = "Test",
             LastName = "User",
+            Email = "test.user@example.com",
+            PhoneNumber = "1234567890",
+            Address = "Test Street 123",
+            City = "Test City"
         };
 
 
@@ -27,10 +31,13 @@ public class UserFactory_Tests
         // ASSERT
 
         // Verifies that the result is not null, that the user's properties match the input,
-        // and that the ID string is not null or empty
         Assert.NotNull(result);
         Assert.Equal(userRegistrationForm.FirstName, result.FirstName);
         Assert.Equal(userRegistrationForm.LastName, result.LastName);
+        Assert.Equal(userRegistrationForm.Email, result.Email);
+        Assert.Equal(userRegistrationForm.PhoneNumber, result.PhoneNumber);
+        Assert.Equal(userRegistrationForm.Address, result.Address);
+        Assert.Equal(userRegistrationForm.City, result.City);
         Assert.False(string.IsNullOrEmpty(result.Id));
     }
 }
