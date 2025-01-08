@@ -63,6 +63,8 @@ public class MenuDialogs(IUserService userService)
         while (!validInput)
         {
             Console.Clear();
+
+            //First Name
             Console.Write("Enter your first name: ");
             user.FirstName = Console.ReadLine()!;
 
@@ -74,6 +76,7 @@ public class MenuDialogs(IUserService userService)
                 continue;
             }
 
+            //Last name
             Console.Write("Enter your last name: ");
             user.LastName = Console.ReadLine()!;
             if (string.IsNullOrWhiteSpace(user.LastName))
@@ -83,7 +86,49 @@ public class MenuDialogs(IUserService userService)
                 continue;
             }
 
-            //If both inputs passes the loop ends
+            // Email
+            Console.Write("Enter your email: ");
+            user.Email = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(user.Email) || !user.Email.Contains("@"))
+            {
+                Console.WriteLine("\nInvalid email. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
+
+            // Phonenumber
+            Console.Write("Enter your phone number: ");
+            user.PhoneNumber = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(user.PhoneNumber) || !user.PhoneNumber.All(char.IsDigit))
+            {
+                Console.WriteLine("\nInvalid phone number. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
+
+            // Address
+            Console.Write("Enter your address: ");
+            user.Address = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(user.Address))
+            {
+                Console.WriteLine("\nAddress cannot be empty. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
+
+            // City
+            Console.Write("Enter your city: ");
+            user.City = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(user.City))
+            {
+                Console.WriteLine("\nCity cannot be empty. Please try again...");
+                Console.ReadKey();
+                continue;
+            }
+
+
+
+            //If inputs passes, the loop ends
             validInput = true;
 
             //Creating a UserEntity with UserFactory
@@ -114,10 +159,12 @@ public class MenuDialogs(IUserService userService)
             //Iterates through each UserEntity and writes it out to the user
             foreach (var user in users)
             {
-                Console.WriteLine($"Id: {user.Id}");
-                Console.WriteLine($"First name: {user.FirstName}");
-                Console.WriteLine($"Last name: {user.LastName}");
                 Console.WriteLine("-----------------");
+                Console.WriteLine($"Id: {user.Id}\n");
+                Console.WriteLine($"Name: {user.FirstName} {user.LastName}\n");
+                Console.WriteLine($"Email: {user.Email}\n");
+                Console.WriteLine($"Phone: {user.PhoneNumber}\n");
+                Console.WriteLine($"Address: {user.Address} {user.City}\n");
             }
         }
 
