@@ -24,7 +24,7 @@ public class FileService : IFileService
         _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
     }
 
-    public void SaveListToFile(List<UserEntity> list)
+    public bool SaveListToFile(List<UserEntity> list)
     {
         try
         {
@@ -35,10 +35,13 @@ public class FileService : IFileService
             //Serializes the list of UserEntity objects to JSON and writes it to the specified file
             var json = JsonSerializer.Serialize(list, _jsonSerializerOptions);
             File.WriteAllText(_filePath, json);
+
+            return true;
         }
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
+            return false;
         }
     }
 
