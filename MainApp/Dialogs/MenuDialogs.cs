@@ -136,11 +136,11 @@ public class MenuDialogs(IUserService userService)
             foreach (var user in users)
             {
                 Console.WriteLine("-----------------");
-                Console.WriteLine($"Id: {user.Id}\n");
-                Console.WriteLine($"Name: {user.FirstName} {user.LastName}\n");
-                Console.WriteLine($"Email: {user.Email}\n");
-                Console.WriteLine($"Phone: {user.PhoneNumber}\n");
-                Console.WriteLine($"Address: {user.Address} {user.City}\n");
+                Console.WriteLine($"Id: {user.Id}");
+                Console.WriteLine($"Name: {user.FirstName} {user.LastName}");
+                Console.WriteLine($"Email: {user.Email}");
+                Console.WriteLine($"Phone: {user.PhoneNumber}");
+                Console.WriteLine($"Address: {user.Address} {user.City}");
             }
         }
 
