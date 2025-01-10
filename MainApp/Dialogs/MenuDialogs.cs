@@ -11,13 +11,10 @@ public class MenuDialogs(IUserService userService)
 {
 
     private readonly IUserService _userService = userService;
-
-    //ShowMenu Handles the user's menu selection
     public void ShowMenu()
     {
        bool isRunning = true;
 
-        // Loops until the user chooses to quit the program.
         while (isRunning)
         {
             Console.Clear();
@@ -41,18 +38,15 @@ public class MenuDialogs(IUserService userService)
                 case "3":
                     isRunning = false;
                     Console.Clear();
-                    Console.WriteLine("Exiting...");
-                    Console.ReadKey();
+                    OutputDialog("Exiting...");
                     break;
 
                 default:
                     Console.Clear();
-                    Console.WriteLine("Invalid option. Try again!");
-                    Console.ReadKey();
+                    OutputDialog("Invalid option. Try again!");
                     break;
             }
         }
-
     }
 
     public void CreateContact()
@@ -63,72 +57,54 @@ public class MenuDialogs(IUserService userService)
         while (!validInput)
         {
             Console.Clear();
-
-            //First Name
             Console.Write("Enter your first name: ");
             user.FirstName = Console.ReadLine()!;
+                if (string.IsNullOrWhiteSpace(user.FirstName))
+                {
+                    OutputDialog("\nFirst name cannot be empty. Please try again...");
+                    continue;
+                }
 
-            //Validates user input and check if it is not empty or whitespace
-            if (string.IsNullOrWhiteSpace(user.FirstName))
-            {
-                Console.Write("\nFirst name cannot be empty. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
-
-            //Last name
             Console.Write("Enter your last name: ");
             user.LastName = Console.ReadLine()!;
-            if (string.IsNullOrWhiteSpace(user.LastName))
-            {
-                Console.Write("\nLast name cannot be empty. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
-
-            // Email
+                if (string.IsNullOrWhiteSpace(user.LastName))
+                {
+                    OutputDialog("\nLast name cannot be empty. Please try again...");
+                    continue;
+                }
+  
             Console.Write("Enter your email: ");
             user.Email = Console.ReadLine()!;
-            if (string.IsNullOrWhiteSpace(user.Email) || !user.Email.Contains("@"))
-            {
-                Console.WriteLine("\nInvalid email. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
+                if (string.IsNullOrWhiteSpace(user.Email) || !user.Email.Contains("@"))
+                {
+                    OutputDialog("\nInvalid email. Please try again...");
+                    continue;
+                }
 
-            // Phonenumber
             Console.Write("Enter your phone number: ");
             user.PhoneNumber = Console.ReadLine()!;
-            if (string.IsNullOrWhiteSpace(user.PhoneNumber) || !user.PhoneNumber.All(char.IsDigit))
-            {
-                Console.WriteLine("\nInvalid phone number. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
+                if (string.IsNullOrWhiteSpace(user.PhoneNumber) || !user.PhoneNumber.All(char.IsDigit))
+                {
+                    OutputDialog("\nInvalid phone number. Please try again...");
+                    continue;
+                }
 
-            // Address
             Console.Write("Enter your address: ");
             user.Address = Console.ReadLine()!;
-            if (string.IsNullOrWhiteSpace(user.Address))
-            {
-                Console.WriteLine("\nAddress cannot be empty. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
+                if (string.IsNullOrWhiteSpace(user.Address))
+                {
+                    OutputDialog("\nAddress cannot be empty. Please try again...");
+                    continue;
+                }
 
-            // City
             Console.Write("Enter your city: ");
             user.City = Console.ReadLine()!;
-            if (string.IsNullOrWhiteSpace(user.City))
-            {
-                Console.WriteLine("\nCity cannot be empty. Please try again...");
-                Console.ReadKey();
-                continue;
-            }
+                if (string.IsNullOrWhiteSpace(user.City))
+                {
+                    OutputDialog("\nCity cannot be empty. Please try again...");
+                    continue;
+                }
 
-
-
-            //If inputs passes, the loop ends
             validInput = true;
 
             //Creating a UserEntity with UserFactory
@@ -168,6 +144,12 @@ public class MenuDialogs(IUserService userService)
             }
         }
 
+        Console.ReadKey();
+    }
+
+    public void OutputDialog(string message)
+    {
+        Console.WriteLine(message);
         Console.ReadKey();
     }
 }

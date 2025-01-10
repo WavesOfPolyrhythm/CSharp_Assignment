@@ -16,7 +16,6 @@ public class UserService : IUserService
     private readonly IUserRepository _userRepository;
     private List<UserEntity> _users;
 
-
     /// <summary>
     /// Initializes a new instance of the <see cref="UserService"/> class.
     /// Loads the current list of users from the repository.
@@ -27,7 +26,6 @@ public class UserService : IUserService
         _userRepository = userRepository;
         _users = _userRepository.LoadUsers() ?? new List<UserEntity>();
     }
-
 
     /// <summary>
     /// Adds new user to the user list and saves the updated list to the repository.
@@ -51,7 +49,6 @@ public class UserService : IUserService
             return false;
         }
     }
-
 
     /// <summary>
     /// Retrieves the list of all users from the repository.
