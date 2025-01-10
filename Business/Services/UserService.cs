@@ -24,7 +24,7 @@ public class UserService : IUserService
     public UserService(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _users = _userRepository.LoadUsers() ?? new List<UserEntity>();
+        _users = new List<UserEntity>();
     }
 
     /// <summary>
