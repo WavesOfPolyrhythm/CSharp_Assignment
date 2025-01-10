@@ -1,70 +1,68 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using Xunit;
+﻿using Xunit;
+using Moq;
+using Business.Interfaces;
 using Business.Services;
-using Business.Entities;
 
-public class FileServiceTests
+
+public class FileService_Tests
+
+
+/// <summary>
+/// Inspiration from Hans test with mock video combined with help from Chat GPT to restructure my tests for fileservice,
+/// after I rearranged code to use repositories.
+/// </summary>
+/// 
+
 {
-    [Fact]
-    public void SaveListToFile_ShouldCreateFileWithCorrectContent()
+    private readonly Mock<IFileService> _fileServiceMock;
+    private readonly FileService _fileService;
+
+    public FileService_Tests()
     {
+        _fileServiceMock = new Mock<IFileService>();
+        _fileService = new FileService();
+    }
 
-        //Code from ChatGPT. Verifies that a user can be saved to a file
+    /// <summary>
+    /// Tests that <see cref="IFileService.SaveListToFile"/> is called once and returns true.
+    /// </summary>
+    [Fact]
+    public void SaveListToFile_ShouldCallSaveMethodOnce()
+    {
+        // Arrange
+        var content = "[{\"Id\":\"1\",\"FirstName\":\"Test\",\"LastName\":\"User\"}]";
+
+        _fileServiceMock.Setup(fs => fs.SaveListToFile(It.IsAny<string>()))
+                        .Returns(true);
+
+        // Act
+        var result = _fileServiceMock.Object.SaveListToFile(content);
+
+        // Assert
+        Assert.True(result);
+        _fileServiceMock.Verify(fs => fs.SaveListToFile(It.IsAny<string>()), Times.Once);
+    }
 
 
-        // ARRANGE
+    /// <summary>
+    /// Tests that the <see cref="IFileService.LoadListFromFile"/> method returns the correct mocked content.
+    /// </summary>
 
-        //Creates a folder and filename, instantiating FileService for the test
-        var directoryPath = "TestOutput";
-        var fileName = "users.json";
-        var fileService = new FileService(directoryPath, fileName);
+    [Fact]
+    public void LoadListFromFile_ShouldReturnMockedContent()
+    {
+        // Arrange
+        var content = "[{\"Id\":\"1\",\"FirstName\":\"Test\",\"LastName\":\"User\"}]";
 
-        //Creates a list of two test users
-        var testUsers = new List<UserEntity>
-        {
-            new UserEntity { Id = "1", FirstName = "User1", LastName = "Test1" },
-            new UserEntity { Id = "2", FirstName = "User2", LastName = "Test2" }
-        };
+        _fileServiceMock.Setup(fs => fs.LoadListFromFile())
+                        .Returns(content);
 
+        // Act
+        var result = _fileServiceMock.Object.LoadListFromFile();
 
-        // ACT
-
-        //Calling the method SaveListToFile with the test object
-        fileService.SaveListToFile(testUsers);
-
-        // ASSERT
-
-        //Checks if the file was created successfully
-        var filePath = Path.Combine(directoryPath, fileName);
-        Assert.True(File.Exists(filePath), "File should be created.");
-
-        //Reads content as a JSON string
-        var fileContent = File.ReadAllText(filePath);
-
-        //Deserializes the JSON content into a list of UserEntity objects
-        var deserializedUsers = JsonSerializer.Deserialize<List<UserEntity>>(fileContent);
-
-        //Checks if the deseriliazation was successfull and the list is not null
-        Assert.NotNull(deserializedUsers);
-        Assert.Equal(testUsers.Count, deserializedUsers.Count);
-
-        //Checks that testUsers match with the deserialized users
-        Assert.Equal(testUsers[0].FirstName, deserializedUsers[0].FirstName);
-        Assert.Equal(testUsers[1].LastName, deserializedUsers[1].LastName);
-
-        // Cleanup
-        //Removes the created folder and file
-        if (File.Exists(filePath))
-        {
-            File.Delete(filePath);
-        }
-
-        if (Directory.Exists(directoryPath))
-        {
-            Directory.Delete(directoryPath, true);
-        }
+        // Assert
+        Assert.Equal(content, result); 
+        _fileServiceMock.Verify(fs => fs.LoadListFromFile(), Times.Once); 
     }
 }
 

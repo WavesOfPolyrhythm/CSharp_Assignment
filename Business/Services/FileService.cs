@@ -6,36 +6,44 @@ using System.Text.Json;
 
 namespace Business.Services;
 
+/// <summary>
+/// This class manages reading from and writing to a file. 
+/// It handles saving data as JSON and loading it back when needed.
+/// </summary>
+
 public class FileService : IFileService
 {
     private readonly string _directoryPath;
     private readonly string _filePath;
 
-    //Refactored JsonSerializerOptions into a private field for reusability and consistency
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
+    /// <summary>
+    /// Initializes a new instance of <see cref="FileService"/>.
+    /// Sets the directory and file path where data will be saved and loaded.
+    /// </summary>
+    /// <param name="directoryPath">The folder where the file will be stored (default: "Data").</param>
+    /// <param name="fileName">The name of the file (default: "list.json").</param>
 
-
-    // Initializes the FileService with a directory path, file name, and JSON serialization options
-    // Combines the directory path and file name into a full file path.
     public FileService(string directoryPath = "Data", string fileName = "list.json")
     {
         _directoryPath = directoryPath;
         _filePath = Path.Combine(_directoryPath, fileName);
-        _jsonSerializerOptions = new JsonSerializerOptions { WriteIndented = true };
     }
 
-    public bool SaveListToFile(List<UserEntity> list)
+    /// <summary>
+    /// Saves a JSON string to a file.
+    /// </summary>
+    /// <param name="users">The JSON string to save.</param>
+    /// <returns>
+    /// True if the save operation is successful; otherwise, false if an error occurs.
+    /// </returns>
+    public bool SaveListToFile(string users)
     {
         try
         {
-            //Creates directory if it does not exist
             if (!Directory.Exists(_directoryPath))
                 Directory.CreateDirectory(_directoryPath);
-
-            //Serializes the list of UserEntity objects to JSON and writes it to the specified file
-            var json = JsonSerializer.Serialize(list, _jsonSerializerOptions);
-            File.WriteAllText(_filePath, json);
-
+            
+            File.WriteAllText(_filePath, users);
             return true;
         }
         catch (Exception ex)
@@ -45,28 +53,27 @@ public class FileService : IFileService
         }
     }
 
-    public List<UserEntity> LoadListFromFile()
+    /// <summary>
+    /// Loads a JSON string from a file.
+    /// </summary>
+    /// <returns>
+    /// The JSON string from the file, or "[]" (an empty JSON array) if the file doesn't exist or an error occurs.
+    /// </returns>
+    public string LoadListFromFile()
     {
         try
         {
-            //Returns a empty list if FilePath do not exist.
             if (!File.Exists(_filePath))
             {
-                return [];
+                return "[]";
             }
-
-            //Reads the file at the specified path and deserializes content into a list of UserEntity objects
-            var json = File.ReadAllText(_filePath);
-            var list = JsonSerializer.Deserialize<List<UserEntity>>(json, _jsonSerializerOptions);
-            return list ?? [];
+            return File.ReadAllText(_filePath);
         }
 
         catch (Exception ex)
         {
             Debug.WriteLine(ex.Message);
-            return [];
+            return "[]";
         }
     }
-
-    // Catches any exception that occurs during file operations and logs the error message.
 }
